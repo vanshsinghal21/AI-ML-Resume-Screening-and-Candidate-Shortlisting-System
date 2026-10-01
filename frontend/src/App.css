@@ -231,8 +231,95 @@ textarea {
   box-shadow: 0 0 0 3px rgba(113, 103, 255, 0.1);
 }
 
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .full-width {
   width: 100%;
+}
+
+
+/* ============================================================
+   AUTOMATIC JOB ROLE REQUIREMENTS
+   ============================================================ */
+
+.job-role-preview {
+  border: 1px solid #20283a;
+  background: #0b101b;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 22px;
+}
+
+.role-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #20283a;
+}
+
+.role-preview-header h3 {
+  font-size: 15px;
+  color: #f5f7ff;
+}
+
+.role-preview-header span {
+  color: #7167ff;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(113, 103, 255, 0.1);
+  border: 1px solid rgba(113, 103, 255, 0.2);
+  padding: 5px 9px;
+  border-radius: 7px;
+  white-space: nowrap;
+}
+
+.role-detail {
+  margin-bottom: 17px;
+}
+
+.role-detail:last-child {
+  margin-bottom: 0;
+}
+
+.role-detail label {
+  display: block;
+  color: #8993aa;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.role-detail p {
+  color: #cdd3e1;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.role-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.role-skill-tag {
+  padding: 6px 9px;
+  border-radius: 7px;
+  color: #a9a4ff;
+  background: rgba(113, 103, 255, 0.08);
+  border: 1px solid rgba(113, 103, 255, 0.18);
+  font-size: 11px;
 }
 
 
@@ -613,5 +700,18 @@ textarea {
 
   .detail-row strong {
     text-align: left;
+  }
+
+  .role-preview-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .role-preview-header span {
+    white-space: normal;
+  }
+
+  .job-role-preview {
+    padding: 17px;
   }
 }

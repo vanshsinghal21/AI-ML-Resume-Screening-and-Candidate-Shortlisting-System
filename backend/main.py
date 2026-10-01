@@ -6,6 +6,8 @@ import fitz
 import os
 import re
 
+from job_roles import JOB_ROLES
+
 
 # ============================================================
 # APP CONFIGURATION
@@ -60,6 +62,23 @@ def health():
     return {
         "status": "healthy",
         "model_loaded": model is not None
+    }
+
+
+# ============================================================
+# JOB ROLE ENDPOINT
+# ============================================================
+
+@app.get("/job-roles")
+def get_job_roles():
+    """
+    Returns all available job roles and their
+    predefined screening requirements.
+    """
+
+    return {
+        "success": True,
+        "job_roles": JOB_ROLES
     }
 
 
@@ -332,13 +351,7 @@ async def predict_resume(
 
     education_level: str = Form(...),
 
-    job_role: str = Form(...),
-
-    required_skills: str = Form(...),
-
-    job_experience_required: int = Form(...),
-
-    job_description: str = Form(...)
+    job_role: str = Form(...)
 ):
 
     # --------------------------------------------------------
@@ -350,6 +363,36 @@ async def predict_resume(
             status_code=500,
             detail="ML model is not loaded."
         )
+
+    # --------------------------------------------------------
+    # JOB ROLE VALIDATION
+    # --------------------------------------------------------
+
+    if job_role not in JOB_ROLES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid job role: {job_role}"
+        )
+
+    # --------------------------------------------------------
+    # GET JOB REQUIREMENTS
+    # --------------------------------------------------------
+
+    selected_role = JOB_ROLES[job_role]
+
+    required_skills_list = selected_role["required_skills"]
+
+    required_skills = ", ".join(
+        required_skills_list
+    )
+
+    job_experience_required = selected_role[
+        "job_experience_required"
+    ]
+
+    job_description = selected_role[
+        "job_description"
+    ]
 
     # --------------------------------------------------------
     # FILE CHECK
@@ -526,6 +569,12 @@ async def predict_resume(
 
         "job_role":
             job_role,
+
+        "job_description":
+            job_description,
+
+        "required_skills":
+            required_skills_list,
 
         "education_level":
             education_level,
